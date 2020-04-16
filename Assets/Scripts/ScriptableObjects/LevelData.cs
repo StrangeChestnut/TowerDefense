@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using DefaultNamespace;
 using ScriptableObjects;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace ScriptableObjects
 {
@@ -13,18 +14,16 @@ namespace ScriptableObjects
         public GameObject mapPrefab;
         public List<StreamData> streams = new List<StreamData>();
 
-        public Spawner[] mobSpawners;
-        public TowerPlace[] towerPlaces;
-        public CastleBase castle;
-        public void OnSpawnMap(GameObject map)
-        {
-            castle = map.GetComponentInChildren<CastleBase>();;
-            mobSpawners = map.GetComponentsInChildren<Spawner>();
-            towerPlaces = map.GetComponentsInChildren<TowerPlace>();
+        public Map Map { get; private set; }
 
-            for (int i = 0; i < mobSpawners.Length; i++)
+        public void OnSpawnMap(GameObject mapObject)
+        {
+            Map = mapObject.GetComponent<Map>();
+            if (Map == null) return;
+            
+            for (int i = 0; i < Map.mobSpawners.Length; i++)
             {
-                mobSpawners[i].SetStream(streams[i]);
+                Map.mobSpawners[i].SetStream(streams[i]);
             }
         }
     }

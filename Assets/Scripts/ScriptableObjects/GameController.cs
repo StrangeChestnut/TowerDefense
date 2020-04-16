@@ -27,7 +27,7 @@ namespace ScriptableObjects
 
         public void NextWave()
         {
-            foreach (var spawner in level.mobSpawners)
+            foreach (var spawner in level.Map.mobSpawners)
             {
                 spawner.NewWave(wave++);
             }
