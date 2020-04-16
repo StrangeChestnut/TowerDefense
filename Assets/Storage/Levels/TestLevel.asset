@@ -14,5 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapPrefab: {fileID: 9213519436528790546, guid: ed5d153f16063414590c2b2292e1a438,
     type: 3}
-  waves:
-  - {fileID: 11400000, guid: 5b29860d67408ed4d9769a5d0644bb02, type: 2}
+  streams:
+  - {fileID: 11400000, guid: 144777135371fc544943506b9402a589, type: 2}
+  mobSpawners:
+  - {fileID: 0}
+  towerPlaces:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  castle: {fileID: 0}

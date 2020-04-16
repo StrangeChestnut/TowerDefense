@@ -12,6 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11ac80744c7043d3a0e47375c14c4faa, type: 3}
   m_Name: Stream
   m_EditorClassIdentifier: 
-  mobPrefab: {fileID: 0}
-  mobCount: 0
-  spawnDelay: 0
+  waves:
+  - {fileID: 11400000, guid: 5b29860d67408ed4d9769a5d0644bb02, type: 2}

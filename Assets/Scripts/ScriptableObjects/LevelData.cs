@@ -11,6 +11,21 @@ namespace ScriptableObjects
     public class LevelData : ScriptableObject
     {
         public GameObject mapPrefab;
-        public List<WaveData> waves = new List<WaveData>();
+        public List<StreamData> streams = new List<StreamData>();
+
+        public Spawner[] mobSpawners;
+        public TowerPlace[] towerPlaces;
+        public CastleBase castle;
+        public void OnSpawnMap(GameObject map)
+        {
+            castle = map.GetComponentInChildren<CastleBase>();;
+            mobSpawners = map.GetComponentsInChildren<Spawner>();
+            towerPlaces = map.GetComponentsInChildren<TowerPlace>();
+
+            for (int i = 0; i < mobSpawners.Length; i++)
+            {
+                mobSpawners[i].SetStream(streams[i]);
+            }
+        }
     }
 }
