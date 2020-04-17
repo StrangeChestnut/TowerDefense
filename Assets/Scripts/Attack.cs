@@ -3,16 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Attack : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
+{ 
+    public void Fire(Health characterHealth)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        characterHealth.Damage(1);
     }
 }

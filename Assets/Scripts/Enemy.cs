@@ -10,6 +10,7 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] private GameController _game;
     [SerializeField] private Character _character;
+    public Character Character => _character;
     
     public float DefaultDestinationTime = 5f;
     public float AttackDestinationTime = 1f;

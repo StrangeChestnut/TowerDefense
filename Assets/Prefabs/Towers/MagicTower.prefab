@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3996309153471844184}
   - component: {fileID: 4410570548075043723}
   - component: {fileID: 4906632498400556923}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: default
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,7 +88,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6853178799187991648}
-  m_Layer: 0
+  - component: {fileID: 3127197965866501268}
+  - component: {fileID: 9206784960012130228}
+  - component: {fileID: 8452577298769996306}
+  m_Layer: 2
   m_Name: MagicTower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -110,3 +113,41 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3127197965866501268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7584123439837900403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e797e00ce7cbded44bbef5c5e009e081, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _attack: {fileID: 9206784960012130228}
+--- !u!114 &9206784960012130228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7584123439837900403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c40b9a5affbed94e96bd4b3c035419b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!135 &8452577298769996306
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7584123439837900403}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 12.52
+  m_Center: {x: 0, y: 3, z: 0}

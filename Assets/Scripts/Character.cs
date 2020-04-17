@@ -9,6 +9,8 @@ public class Character : MonoBehaviour
     [SerializeField] private Health _health;
     [SerializeField] private Walking _walking;
     public Walking Walking => _walking;
+    public Health Health => _health;
+
     private void OnEnable()
     {
         if (_health != null)
