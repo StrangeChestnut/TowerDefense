@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using ScriptableObjects;
 using UnityEditor.AI;
@@ -13,7 +14,9 @@ namespace DefaultNamespace
         private IEnumerator _spawner;
         private WaveData _wave;
         
-        private Dictionary<int, int> _indices = new Dictionary<int, int>();
+        private readonly Dictionary<int, int> _indices = new Dictionary<int, int>();
+
+        public event Action<Spawner> StopSpawnEvent;
         
         public void SetStream(StreamData stream)
         {
@@ -41,9 +44,12 @@ namespace DefaultNamespace
             yield return new WaitForSeconds(_wave.waveDelay);
             for (int i = 0; i < _wave.mobCount; i ++)
             {
-                Spawn();
                 yield return new WaitForSeconds(_wave.spawnDelay);
+                Spawn();
             }
+            StopSpawnEvent?.Invoke(this);
         }
+
+        public bool HasWave(int wave) => _indices.ContainsKey(wave);
     }
 }

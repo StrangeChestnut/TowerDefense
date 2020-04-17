@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using DefaultNamespace;
 using UnityEditor.AI;
 using UnityEngine;
@@ -8,37 +10,72 @@ namespace ScriptableObjects
     [CreateAssetMenu(fileName = "GameProxy", menuName = "GameProxy", order = 0)]
     public class GameController : ScriptableObject
     {
+        private GameView _gameView;
+        [SerializeField] private List<GameObject> _enemies = new List<GameObject>();
+        [SerializeField] private List<Spawner> _activeSpawners = new List<Spawner>();
+        [SerializeField] private int _wave;
+            
         public LevelData level;
-        public int wave = 0;
-
+        public CastleBase Castle => _gameView.castle;
         public void OnOpen(GameView gameView)
         {
-            wave = 0;
-            gameView.SpawnMapEvent += level.OnSpawnMap;
-            gameView.StartGameEvent += BakeMesh;
-            gameView.StartGameEvent += NextWave;
+            _wave = 0;
+            _gameView = gameView;
+            gameView.SpawnMapEvent += OnSpawnMap;
+            gameView.NextWaveEvent += TryNextWave;
             gameView.StartGame();
         }
 
-        private void BakeMesh()
+        private void OnSpawnMap()
         {
-            NavMeshBuilder.BuildNavMesh();
+            if (_gameView.mobSpawners == null) return;
+            for (int i = 0; i < _gameView.mobSpawners.Length; i++)
+            {
+                var spawner = _gameView.mobSpawners[i];
+                spawner.SetStream(level.streams[i]);
+                spawner.StopSpawnEvent += OnStopSpawn;
+            }
         }
 
-        public void NextWave()
+        private void OnStopSpawn(Spawner spawner)
         {
-            foreach (var spawner in level.Map.mobSpawners)
+            _activeSpawners.Remove(spawner);
+        }
+
+        public void AddEnemy(GameObject enemy)
+        {
+            _enemies.Add(enemy);
+        }
+        
+        public void RemoveEnemy(GameObject enemy)
+        {
+            _enemies.Remove(enemy);
+            if (_enemies.Count == 0 && _activeSpawners.Count == 0)
+                _gameView.NextWave();
+        }
+
+        private void TryNextWave()
+        {
+            foreach (var spawner in _gameView.mobSpawners)
+                if (spawner.HasWave(_wave))
+                    _activeSpawners.Add(spawner);
+
+            if (_activeSpawners.Count == 0)
+                _gameView.StopGame();
+            else
             {
-                spawner.NewWave(wave++);
+                foreach (var spawner in _gameView.mobSpawners)
+                    spawner.NewWave(_wave);
+                _wave++;
             }
         }
 
         public void OnClose(GameView gameView)
         {
-            gameView.StopGame();
-            gameView.StartGameEvent -= NextWave;
-            gameView.StartGameEvent -= BakeMesh;
-            gameView.SpawnMapEvent -= level.OnSpawnMap;
+            _activeSpawners.Clear();
+            gameView.SpawnMapEvent -= OnSpawnMap;
+            gameView.NextWaveEvent -= TryNextWave;
+            _gameView = null;
         }
     }
 }

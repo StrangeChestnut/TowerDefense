@@ -24,10 +24,17 @@ public class Enemy : MonoBehaviour
 
     private void OnEnable()
     {
-        _castle = _game.level.Map.castle;
+        _castle = _game.Castle;
         _destinationTimer = 0f;
         _character.Walking.Speed = DefaultSpeed;
         _character.Walking.StopDistance(AttackDistance);
+        
+        _game.AddEnemy(gameObject);
+    }
+
+    private void OnDisable()
+    {
+        _game.RemoveEnemy(gameObject);
     }
 
     private void Update()
