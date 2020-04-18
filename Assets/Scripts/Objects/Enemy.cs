@@ -8,9 +8,10 @@ using UnityEngine.Serialization;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private GameController _game;
     [SerializeField] private Character _character;
     public Character Character => _character;
+    
+    public GameController game;
     
     public float DefaultDestinationTime = 5f;
     public float AttackDestinationTime = 1f;
@@ -24,17 +25,17 @@ public class Enemy : MonoBehaviour
 
     private void OnEnable()
     {
-        _castle = _game.Castle;
+        _castle = game.Castle;
         _destinationTimer = 0f;
         _character.Walking.Speed = DefaultSpeed;
         _character.Walking.StopDistance(AttackDistance);
         
-        _game.AddEnemy(gameObject);
+        game.AddEnemy(gameObject);
     }
 
     private void OnDisable()
     {
-        _game.RemoveEnemy(gameObject);
+        game.RemoveEnemy(gameObject);
     }
 
     private void Update()

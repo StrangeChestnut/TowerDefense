@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 6637089152578201736}
   - component: {fileID: 7789474674195294599}
   - component: {fileID: 6923064059409508089}
-  - component: {fileID: 649682325537208906}
   - component: {fileID: 1194315209645538348}
   - component: {fileID: 6140654090608336802}
   m_Layer: 8
@@ -103,19 +102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fbd8c4fffa18874e98d2ce8fbded60f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _defaultHealth: 50
---- !u!114 &649682325537208906
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4092410897500972875}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c40b9a5affbed94e96bd4b3c035419b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  _defaultHealth: 25
 --- !u!114 &1194315209645538348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,7 +115,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3885e7190a5d17745af57e31f879933c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _attack: {fileID: 649682325537208906}
   _health: {fileID: 6923064059409508089}
   _walking: {fileID: 7789474674195294599}
 --- !u!114 &6140654090608336802
@@ -143,8 +129,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0b9fa1e299782049a05f12ccbd52246, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _game: {fileID: 11400000, guid: 857921327dcef404f8a7488d832878aa, type: 2}
   _character: {fileID: 1194315209645538348}
+  game: {fileID: 11400000, guid: 857921327dcef404f8a7488d832878aa, type: 2}
   DefaultDestinationTime: 5
   AttackDestinationTime: 1
   DefaultSpeed: 5

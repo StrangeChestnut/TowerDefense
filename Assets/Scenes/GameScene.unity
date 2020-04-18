@@ -38,13 +38,13 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.44068617, g: 0.4893453, b: 0.56947356, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 11
-  m_GIWorkflowMode: 1
+  m_GIWorkflowMode: 0
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -150,7 +150,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86f59af4a2a24176871f2c1f3c8afaab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _game: {fileID: 11400000, guid: 857921327dcef404f8a7488d832878aa, type: 2}
+  game: {fileID: 11400000, guid: 857921327dcef404f8a7488d832878aa, type: 2}
+  mobSpawners: []
+  towerPlaces: []
+  castle: {fileID: 0}
 --- !u!4 &552215329
 Transform:
   m_ObjectHideFlags: 0

@@ -11,7 +11,7 @@ namespace ScriptableObjects
     public class GameController : ScriptableObject
     {
         private GameView _gameView;
-        [SerializeField] private List<GameObject> _enemies = new List<GameObject>();
+        public readonly List<GameObject> enemies = new List<GameObject>();
         [SerializeField] private List<Spawner> _activeSpawners = new List<Spawner>();
         [SerializeField] private int _wave;
             
@@ -44,13 +44,13 @@ namespace ScriptableObjects
 
         public void AddEnemy(GameObject enemy)
         {
-            _enemies.Add(enemy);
+            enemies.Add(enemy);
         }
         
         public void RemoveEnemy(GameObject enemy)
         {
-            _enemies.Remove(enemy);
-            if (_enemies.Count == 0 && _activeSpawners.Count == 0)
+            enemies.Remove(enemy);
+            if (enemies.Count == 0 && _activeSpawners.Count == 0)
                 _gameView.NextWave();
         }
 

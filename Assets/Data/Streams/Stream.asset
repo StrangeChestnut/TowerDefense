@@ -9,7 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 024656c665ae4c97a2869c89e4a357ba, type: 3}
-  m_Name: GameProxy
+  m_Script: {fileID: 11500000, guid: 11ac80744c7043d3a0e47375c14c4faa, type: 3}
+  m_Name: Stream
   m_EditorClassIdentifier: 
-  level: {fileID: 11400000, guid: cf8865d930fd055449ebdf1668af46e7, type: 2}
+  waves:
+  - {fileID: 11400000, guid: 5b29860d67408ed4d9769a5d0644bb02, type: 2}
+  - {fileID: 11400000, guid: 4c1cebe8c35b08f4e98b65bf9a8fa421, type: 2}

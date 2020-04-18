@@ -7,7 +7,7 @@ namespace DefaultNamespace
 {
     public class GameView : MonoBehaviour
     {
-        [SerializeField] private GameController _game;
+        public GameController game;
         
         public Spawner[] mobSpawners;
         public TowerPlace[] towerPlaces;
@@ -18,7 +18,7 @@ namespace DefaultNamespace
 
         private void OnEnable()
         {
-            _game.OnOpen(this);
+            game.OnOpen(this);
         }
 
         public void StartGame()
@@ -35,7 +35,7 @@ namespace DefaultNamespace
 
         private void SpawnMap()
         {
-            GameObject map = Instantiate(_game.level.mapPrefab, transform.position, Quaternion.identity);   
+            GameObject map = Instantiate(game.level.mapPrefab, transform.position, Quaternion.identity);   
             
             if (map == null) return;
             castle = map.GetComponentInChildren<CastleBase>();;
@@ -57,7 +57,7 @@ namespace DefaultNamespace
 
         private void OnDisable()
         {
-            _game.OnClose(this);
+            game.OnClose(this);
         }
     }
 }
