@@ -4,9 +4,11 @@ using UnityEngine;
 
 namespace ScriptableObjects
 {
-    [CreateAssetMenu(fileName = "Stream", menuName = "StreamData", order = 0)]
-    public class StreamData : ScriptableObject
+    [CreateAssetMenu(fileName = "SpawnData", menuName = "SpawnData", order = 0)]
+    public class SpawnData : ScriptableObject
     {
-        public List<WaveData> waves;
+        public GameObject mobPrefab;
+        public int mobCount;
+        public float spawnDelay;
     }
 }

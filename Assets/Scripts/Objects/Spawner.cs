@@ -6,50 +6,35 @@ using UnityEditor.AI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace DefaultNamespace
+namespace Objects
 {
     public class Spawner : MonoBehaviour
     {
-        [SerializeField] private StreamData _stream;
+        [SerializeField] private SpawnData _stream;
         private IEnumerator _spawner;
-        private WaveData _wave;
         
-        private readonly Dictionary<int, int> _indices = new Dictionary<int, int>();
-
         public event Action<Spawner> StopSpawnEvent;
         
-        public void SetStream(StreamData stream)
+        public void StartSpawn(SpawnData stream)
         {
             _stream = stream;
-            for (int i = 0; i < _stream.waves.Count; i++)
-            {
-                _indices.Add(_stream.waves[i].number, i);
-            } 
-        }
-
-        public void NewWave(int waveNumber)
-        {
-            _wave = _stream.waves[_indices[waveNumber]];
             _spawner = SpawnCoroutine();
             StartCoroutine(_spawner);
         }
 
         private void Spawn()
         {
-            var mob = Instantiate(_wave.mobPrefab, transform.position, Quaternion.identity, transform.parent);
+            Instantiate(_stream.mobPrefab, transform.position, Quaternion.identity, transform.parent);
         }
 
         IEnumerator SpawnCoroutine()
         {
-            yield return new WaitForSeconds(_wave.waveDelay);
-            for (int i = 0; i < _wave.mobCount; i ++)
+            for (int i = 0; i < _stream.mobCount; i ++)
             {
-                yield return new WaitForSeconds(_wave.spawnDelay);
+                yield return new WaitForSeconds(_stream.spawnDelay);
                 Spawn();
             }
             StopSpawnEvent?.Invoke(this);
         }
-
-        public bool HasWave(int wave) => _indices.ContainsKey(wave);
     }
 }

@@ -1,21 +1,21 @@
 ﻿using System;
+using DefaultNamespace;
+using Objects;
 using ScriptableObjects;
 using UnityEditor.AI;
 using UnityEngine;
 
-namespace DefaultNamespace
+namespace Objects
 {
     public class GameView : MonoBehaviour
     {
         public GameController game;
         
-        public Spawner[] mobSpawners;
+        public WaveSpawner spawner;
         public TowerPlace[] towerPlaces;
         public CastleBase castle;
-        
-        public event Action SpawnMapEvent;
-        public event Action NextWaveEvent;
 
+        public event Action WonEvent;
         private void OnEnable()
         {
             game.OnOpen(this);
@@ -25,24 +25,17 @@ namespace DefaultNamespace
         {
             SpawnMap();
             BakeMesh();
-            NextWave();
+            StartWaves();
         }
-
-        public void NextWave()
-        {
-            NextWaveEvent?.Invoke();
-        }
-
+        
         private void SpawnMap()
         {
-            GameObject map = Instantiate(game.level.mapPrefab, transform.position, Quaternion.identity);   
+            GameObject level = Instantiate(game.levelPrefab, transform.position, Quaternion.identity);   
             
-            if (map == null) return;
-            castle = map.GetComponentInChildren<CastleBase>();;
-            towerPlaces = map.GetComponentsInChildren<TowerPlace>();
-            mobSpawners = map.GetComponentsInChildren<Spawner>();
-
-            SpawnMapEvent?.Invoke();
+            if (level == null) return;
+            castle = level.GetComponentInChildren<CastleBase>();;
+            towerPlaces = level.GetComponentsInChildren<TowerPlace>();
+            spawner = level.GetComponent<WaveSpawner>();
         }
         
         private void BakeMesh()
@@ -50,9 +43,26 @@ namespace DefaultNamespace
             NavMeshBuilder.BuildNavMesh();
         }
 
+        private void StartWaves()
+        {
+            if (spawner != null)
+            {
+                spawner.EndLastWaveEvent += OnEndLastWave;
+                spawner.Launch();
+            }
+        }
+
+        private void OnEndLastWave()
+        {
+            WonEvent?.Invoke();
+        }
+
         public void StopGame()
         {
-            
+            if (spawner != null)
+            {
+                spawner.EndLastWaveEvent -= OnEndLastWave;
+            }
         }
 
         private void OnDisable()

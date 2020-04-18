@@ -6,9 +6,7 @@ namespace ScriptableObjects
     [CreateAssetMenu(fileName = "Wave", menuName = "WaveData", order = 0)]
     public class WaveData : ScriptableObject
     {
-        public GameObject mobPrefab;
-        public int mobCount;
-        public float spawnDelay;
+        public SpawnData[] spawnersData;
         public float waveDelay;
         public int number;
     }

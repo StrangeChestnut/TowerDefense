@@ -30,12 +30,12 @@ public class Enemy : MonoBehaviour
         _character.Walking.Speed = DefaultSpeed;
         _character.Walking.StopDistance(AttackDistance);
         
-        game.AddEnemy(gameObject);
+        game.WaveSpawner.AddEnemy(gameObject);
     }
 
     private void OnDisable()
     {
-        game.RemoveEnemy(gameObject);
+        game.WaveSpawner.RemoveEnemy(gameObject);
     }
 
     private void Update()
