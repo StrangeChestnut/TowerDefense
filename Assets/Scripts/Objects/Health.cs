@@ -1,32 +1,32 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Health : MonoBehaviour
+namespace Objects
 {
+	public class Health : MonoBehaviour
+	{
 		[SerializeField] private float _defaultHealth;
 		public float DefaultHealth => _defaultHealth;
 
-		public float HealthPoints { get; private set; }
+		private float _health;
 
-    	public event Action DieEvent;
-    	public event Action<float> ChangeHealthEvent;
+		public event Action DieEvent;
+		public event Action<float> ChangeHealthEvent;
 
-        private void OnEnable()
-        {
-	        HealthPoints = _defaultHealth;
-    	}
+		private void OnEnable()
+		{
+			_health = _defaultHealth;
+		}
 
-    	public void Damage(float value)
-    	{
-    		HealthPoints = Mathf.Max(0f, HealthPoints - value);
+		public void Damage(float value)
+		{
+			_health = Mathf.Max(0f, _health - value);
 
-    		ChangeHealthEvent?.Invoke(HealthPoints);
+			ChangeHealthEvent?.Invoke(_health);
 
-    		if (HealthPoints > 0f) return;
+			if (_health > 0f) return;
 
-    		DieEvent?.Invoke();
-    	}
-	
+			DieEvent?.Invoke();
+		}
+	}
 }

@@ -1,33 +1,33 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class Character : MonoBehaviour
+namespace Objects
 {
-    [SerializeField] private Health _health;
-    [SerializeField] private Walking _walking;
-    public Walking Walking => _walking;
-    public Health Health => _health;
-
-    private void OnEnable()
+    public class Character : MonoBehaviour
     {
-        if (_health != null)
+        [SerializeField] private Health _health;
+        [SerializeField] private Walking _walking;
+        public Walking Walking => _walking;
+        public Health Health => _health;
+
+        private void OnEnable()
         {
-            _health.DieEvent += OnDead;
+            if (_health != null)
+            {
+                _health.DieEvent += OnDead;
+            }
         }
-    }
 
-    private void OnDisable()
-    {
-        if (_health != null)
+        private void OnDisable()
         {
-            _health.DieEvent -= OnDead;
+            if (_health != null)
+            {
+                _health.DieEvent -= OnDead;
+            }
         }
-    }
 
-    private void OnDead()
-    {
-        Destroy(gameObject);
+        private void OnDead()
+        {
+            Destroy(gameObject);
+        }
     }
 }

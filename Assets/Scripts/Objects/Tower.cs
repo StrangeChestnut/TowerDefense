@@ -1,65 +1,64 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Objects;
-using ScriptableObjects;
+﻿using ScriptableObjects;
 using UnityEngine;
 
-public class Tower : MonoBehaviour
+namespace Objects
 {
-    public GameController game;
-    public Weapon weapon;
-    public float attackDistance = 5f;
-    private Transform _target;
-
-    private void Update()
+    public class Tower : MonoBehaviour
     {
-        if (_target != null)
+        public GameController game;
+        public Weapon weapon;
+        public float attackDistance = 5f;
+        private Transform _target;
+
+        private void Update()
         {
-            if (InSight(_target.position))
+            if (_target != null)
             {
-                weapon.Rotate(_target.position);
-                weapon.Fire();
+                if (InSight(_target.position))
+                {
+                    weapon.Rotate(_target.position);
+                    weapon.Fire();
+                }
+                else
+                    UpdateTarget();
             }
             else
-                UpdateTarget();
-        }
-        else
-        {
-            weapon.StopFire();
-            UpdateTarget();
-        }
-    }
-
-    private bool InSight(Vector3 target)
-    {
-        var vector = target - transform.position;
-        vector = new Vector2(vector.x, vector.z);
-        return vector.magnitude <= attackDistance;
-    }
-
-    private void UpdateTarget()
-    {
-        var shortestDist = Mathf.Infinity;
-        GameObject nearestEnemy = null;
-        foreach (var enemy in game.WaveSpawner.enemies)
-        {
-            var distance = Vector3.Distance(transform.position, enemy.transform.position);
-            if (distance < shortestDist)
             {
-                shortestDist = distance;
-                nearestEnemy = enemy;
+                weapon.StopFire();
+                UpdateTarget();
             }
         }
 
-        if (nearestEnemy != null && InSight(nearestEnemy.transform.position))
-            _target = nearestEnemy.transform;
-        else
-            _target = null;
-    }
+        private bool InSight(Vector3 target)
+        {
+            var vector = target - transform.position;
+            vector = new Vector2(vector.x, vector.z);
+            return vector.magnitude <= attackDistance;
+        }
+
+        private void UpdateTarget()
+        {
+            var shortestDist = Mathf.Infinity;
+            GameObject nearestEnemy = null;
+            foreach (var enemy in game.WaveSpawner.enemies)
+            {
+                var distance = Vector3.Distance(transform.position, enemy.transform.position);
+                if (distance < shortestDist)
+                {
+                    shortestDist = distance;
+                    nearestEnemy = enemy;
+                }
+            }
+
+            if (nearestEnemy != null && InSight(nearestEnemy.transform.position))
+                _target = nearestEnemy.transform;
+            else
+                _target = null;
+        }
     
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawWireSphere(transform.position, attackDistance);
+        private void OnDrawGizmos()
+        {
+            Gizmos.DrawWireSphere(transform.position, attackDistance);
+        }
     }
 }
