@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ba4cfb0befc4482a343dfd17b0a59b3, type: 3}
   m_Name: Wave
   m_EditorClassIdentifier: 
-  spawnersData: []
-  waveDelay: 0
+  spawnersData:
+  - {fileID: 11400000, guid: 653ff7573029ae5419ab674538bfe976, type: 2}
+  waveDelay: 5
   number: 0

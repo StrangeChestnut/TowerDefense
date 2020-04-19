@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: SpawnData
   m_EditorClassIdentifier: Assembly-CSharp:ScriptableObjects:SpawnData
-  mobPrefab: {fileID: 0}
-  mobCount: 0
-  spawnDelay: 0
+  mobPrefab: {fileID: 4092410897500972875, guid: fa98ee93e556bb342aba0dc914ea9c0b,
+    type: 3}
+  mobCount: 5
+  spawnDelay: 2

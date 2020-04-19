@@ -16,7 +16,6 @@ public class Enemy : MonoBehaviour
     public float DefaultDestinationTime = 5f;
     public float AttackDestinationTime = 1f;
     public float DefaultSpeed = 5f;
-    public float AttackSpeed = 0f;
     public float AttackDistance = 5f;
 
     private float _destinationTimer;

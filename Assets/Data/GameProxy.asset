@@ -12,7 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 024656c665ae4c97a2869c89e4a357ba, type: 3}
   m_Name: GameProxy
   m_EditorClassIdentifier: 
-  _enemies: []
-  _activeSpawners: []
-  _wave: 2
-  level: {fileID: 11400000, guid: cf8865d930fd055449ebdf1668af46e7, type: 2}
+  levelPrefab: {fileID: 9213519436528790546, guid: ed5d153f16063414590c2b2292e1a438,
+    type: 3}
