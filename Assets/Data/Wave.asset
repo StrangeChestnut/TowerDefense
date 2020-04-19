@@ -15,4 +15,3 @@ MonoBehaviour:
   spawnersData:
   - {fileID: 11400000, guid: 653ff7573029ae5419ab674538bfe976, type: 2}
   waveDelay: 5
-  number: 0
