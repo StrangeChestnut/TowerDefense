@@ -15,11 +15,14 @@ namespace Objects
         private Coroutine _timer;
 
         [SerializeField] private int _waveNumber;
-        [SerializeField] private float _timeBeforeWave;
+        [SerializeField] private int _timeBeforeWave;
         [SerializeField] private List<Spawner> _activeSpawners;
         [SerializeField] public List<GameObject> enemies = new List<GameObject>();
 
         public event Action EndLastWaveEvent;
+        public event Action<int> UpdateTimerEvent;
+        public event Action<int> UpdateWaveEvent;
+
 
         private bool WaveIsNotFinished => _inSpawnState || AnyEnemyAlive;
         private bool AnyEnemyAlive => enemies.Count != 0;
@@ -41,7 +44,8 @@ namespace Objects
                 spawner.StopSpawn();
             _activeSpawners.Clear();
             
-            StopCoroutine(_timer);
+            if (_timer != null)
+                StopCoroutine(_timer);
         }
 
         private void StartTimerBeforeWave(int waveNumber)
@@ -56,12 +60,14 @@ namespace Objects
             if (wave == null) yield break;
             
             _timeBeforeWave = wave.waveDelay;
+            UpdateTimerEvent?.Invoke(_timeBeforeWave);
             while (_timeBeforeWave > 0)
             {
-                _timeBeforeWave--;
                 yield return new WaitForSeconds(1);
+                UpdateTimerEvent?.Invoke(--_timeBeforeWave);
             }
             StartWave(wave);
+            UpdateWaveEvent?.Invoke(waveNumber);
         }
         
         private void StartWave(WaveData wave)

@@ -16,6 +16,7 @@ namespace Objects
 		private void OnEnable()
 		{
 			_health = _defaultHealth;
+			ChangeHealthEvent?.Invoke(_health);
 		}
 
 		public void Damage(float value)

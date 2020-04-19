@@ -12,32 +12,96 @@ namespace ScriptableObjects
     {
         private GameView _gameView;
         public GameObject levelPrefab;
-        public CastleBase Castle => _gameView.castle;
-        public WaveSpawner WaveSpawner => _gameView.spawner;
 
-        public void OnOpen(GameView gameView)
+        public WaveSpawner spawner;
+        public TowerPlace[] towerPlaces;
+        public CastleBase castle;
+
+        private int _score;
+        
+        public event Action WonEvent;
+        public event Action LoseEvent;
+        
+        public event Action<int> UpdateScoreEvent;
+        public event Action<int> UpdateWaveEvent;
+        public event Action<int> UpdateTimerEvent;
+        public event Action<float> ChangeCastleHealthEvent;
+
+        public void StartGame(GameView gameView)
         {
-            _gameView = gameView;
-            gameView.WonEvent += OnWonGame;
-            gameView.LoseEvent += OnLoseGame;
-            gameView.StartGame();
+            _score = 0;
+            UpdateScoreEvent?.Invoke(0);
+            SpawnMap();
+            BakeMesh();
+            StartWaves();
+        }
+        
+        private void SpawnMap()
+        {
+            GameObject level = Instantiate(levelPrefab);   
+            
+            if (level == null) return;
+            castle = level.GetComponentInChildren<CastleBase>();;
+            if (castle != null)
+            {
+                castle.CastleDestroyEvent += OnCastleDestroy;
+                castle.ChangeCastleHealthEvent += ChangeCastleHealthEvent;
+                ChangeCastleHealthEvent?.Invoke(castle.Health.DefaultHealth);
+            }
+
+            towerPlaces = level.GetComponentsInChildren<TowerPlace>();
+            spawner = level.GetComponent<WaveSpawner>();
         }
 
-        private void OnLoseGame()
+        private void BakeMesh()
         {
-             _gameView.StopGame();
+            NavMeshBuilder.BuildNavMesh();
         }
 
-        private void OnWonGame()
+        private void StartWaves()
         {
-            _gameView.StopGame();
+            if (spawner != null)
+            {
+                spawner.EndLastWaveEvent += OnEndLastWave;
+                spawner.UpdateTimerEvent += UpdateTimerEvent;
+                spawner.UpdateWaveEvent += UpdateWaveEvent;
+                spawner.Launch();
+            }
         }
 
-        public void OnClose(GameView gameView)
+        private void OnEndLastWave()
         {
-            gameView.WonEvent -= OnWonGame;
-            gameView.LoseEvent -= OnLoseGame;
-            _gameView = null;
+            StopGame();
+            WonEvent?.Invoke();
+        }
+    
+        private void OnCastleDestroy()
+        {
+            StopGame();
+            LoseEvent?.Invoke();
+        }
+
+        private void StopGame()
+        {
+            if (spawner != null)
+            {
+                spawner.Stop();
+                spawner.EndLastWaveEvent -= OnEndLastWave;
+                spawner.UpdateTimerEvent -= UpdateTimerEvent;
+                spawner.UpdateWaveEvent -= UpdateWaveEvent;
+            }
+
+            if (castle != null)
+            {
+                castle.CastleDestroyEvent -= OnCastleDestroy;
+                castle.ChangeCastleHealthEvent -= ChangeCastleHealthEvent;
+            }
+        }
+
+        public void AddScore(int value)
+        {
+            _score += value;
+            UpdateScoreEvent?.Invoke(_score);
         }
     }
 }

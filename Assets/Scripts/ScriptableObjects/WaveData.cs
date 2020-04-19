@@ -7,7 +7,6 @@ namespace ScriptableObjects
     public class WaveData : ScriptableObject
     {
         public SpawnData[] spawnersData;
-        public float waveDelay;
-        public int number;
+        public int waveDelay;
     }
 }

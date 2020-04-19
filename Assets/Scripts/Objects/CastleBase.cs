@@ -14,6 +14,7 @@ namespace Objects
         private void OnEnable()
         {
             _health.DieEvent += OnDie;
+            _health.ChangeHealthEvent += OnChangeHealth;
         }
 
         private void OnDie()
@@ -24,6 +25,14 @@ namespace Objects
         private void OnDisable()
         {
             _health.DieEvent -= OnDie;
+            _health.ChangeHealthEvent -= OnChangeHealth;
+        }
+
+        public event Action<float> ChangeCastleHealthEvent;
+
+        private void OnChangeHealth(float value)
+        {
+            ChangeCastleHealthEvent?.Invoke(value);
         }
     }
 }

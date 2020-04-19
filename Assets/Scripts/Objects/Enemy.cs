@@ -20,6 +20,7 @@ namespace Objects
         [SerializeField] private float _defaultSpeed = 5f;
         [SerializeField] private float _damageValue = 5f;
         [SerializeField] private float _attackDistance = 5f;
+        [SerializeField] private int _score = 50;
 
         private EnemyState _state;
         private float _destinationTimer;
@@ -28,15 +29,16 @@ namespace Objects
         private void OnEnable()
         {
             _state = EnemyState.Walk;
-            _castle = game.Castle;
+            _castle = game.castle;
             _destinationTimer = 0f;
             _character.Walking.Speed = _defaultSpeed;
-            game.WaveSpawner.AddEnemy(gameObject);
+            game.spawner.AddEnemy(gameObject);
         }
 
         private void OnDisable()
         {
-            game.WaveSpawner.RemoveEnemy(gameObject);
+            game.spawner.RemoveEnemy(gameObject);
+            game.AddScore(_score);
         }
 
         private void Update()

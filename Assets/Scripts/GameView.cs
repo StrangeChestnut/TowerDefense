@@ -3,78 +3,49 @@ using Objects;
 using ScriptableObjects;
 using UnityEditor.AI;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameView : MonoBehaviour
 {
     public GameController game;
-        
-    public WaveSpawner spawner;
-    public TowerPlace[] towerPlaces;
-    public CastleBase castle;
+    public GameViewController controller;
+    
+    [SerializeField] private Text _score;
+    [SerializeField] private Text _timer;
+    [SerializeField] private Text _wave;
+    [SerializeField] private Text _hp;
 
-    public event Action WonEvent;
-    public event Action LoseEvent;
     private void OnEnable()
     {
-        game.OnOpen(this);
-    }
-
-    public void StartGame()
-    {
-        SpawnMap();
-        BakeMesh();
-        StartWaves();
-    }
-        
-    private void SpawnMap()
-    {
-        GameObject level = Instantiate(game.levelPrefab, transform.position, Quaternion.identity);   
-            
-        if (level == null) return;
-        castle = level.GetComponentInChildren<CastleBase>();;
-        if (castle != null)
-            castle.CastleDestroyEvent += OnCastleDestroy;
-        towerPlaces = level.GetComponentsInChildren<TowerPlace>();
-        spawner = level.GetComponent<WaveSpawner>();
-    }
-
-    private void BakeMesh()
-    {
-        NavMeshBuilder.BuildNavMesh();
-    }
-
-    private void StartWaves()
-    {
-        if (spawner != null)
-        {
-            spawner.EndLastWaveEvent += OnEndLastWave;
-            spawner.Launch();
-        }
-    }
-
-    private void OnEndLastWave()
-    {
-        WonEvent?.Invoke();
-    }
-    
-    private void OnCastleDestroy()
-    {
-        LoseEvent?.Invoke();
-    }
-
-    public void StopGame()
-    {
-        if (spawner != null)
-        {
-            spawner.Stop();
-            spawner.EndLastWaveEvent -= OnEndLastWave;
-        }
-        if (castle != null)
-            castle.CastleDestroyEvent -= OnCastleDestroy;
+        controller = new GameViewController();
+        controller.OnOpen(this);
+        game.StartGame(this);
     }
 
     private void OnDisable()
     {
-        game.OnClose(this);
+        controller.OnClose(this);
+    }
+
+    public void UpdateScore(int value) => Set(_score, value);
+
+    public void UpdateTimer(int value)
+    {
+        if (!_timer.gameObject.activeSelf) 
+            _timer.gameObject.SetActive(true);
+        
+        Set(_timer, value);
+        
+        if (value == 0)
+            _timer.gameObject.SetActive(false);
+        
+    }
+
+    public void UpdateWave(int value) => Set(_wave, value);
+    public void UpdateCastleHealth(float value) => Set(_hp, (int) value);
+
+    private static void Set(Text text, int value)
+    {
+        text.text = value.ToString();
     }
 }

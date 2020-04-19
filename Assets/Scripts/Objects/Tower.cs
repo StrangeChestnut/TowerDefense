@@ -40,7 +40,7 @@ namespace Objects
         {
             var shortestDist = Mathf.Infinity;
             GameObject nearestEnemy = null;
-            foreach (var enemy in game.WaveSpawner.enemies)
+            foreach (var enemy in game.spawner.enemies)
             {
                 var distance = Vector3.Distance(transform.position, enemy.transform.position);
                 if (distance < shortestDist)
