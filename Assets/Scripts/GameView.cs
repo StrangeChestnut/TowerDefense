@@ -13,6 +13,7 @@ public class GameView : MonoBehaviour
     public CastleBase castle;
 
     public event Action WonEvent;
+    public event Action LoseEvent;
     private void OnEnable()
     {
         game.OnOpen(this);
@@ -31,10 +32,12 @@ public class GameView : MonoBehaviour
             
         if (level == null) return;
         castle = level.GetComponentInChildren<CastleBase>();;
+        if (castle != null)
+            castle.CastleDestroyEvent += OnCastleDestroy;
         towerPlaces = level.GetComponentsInChildren<TowerPlace>();
         spawner = level.GetComponent<WaveSpawner>();
     }
-        
+
     private void BakeMesh()
     {
         NavMeshBuilder.BuildNavMesh();
@@ -53,13 +56,21 @@ public class GameView : MonoBehaviour
     {
         WonEvent?.Invoke();
     }
+    
+    private void OnCastleDestroy()
+    {
+        LoseEvent?.Invoke();
+    }
 
     public void StopGame()
     {
         if (spawner != null)
         {
+            spawner.Stop();
             spawner.EndLastWaveEvent -= OnEndLastWave;
         }
+        if (castle != null)
+            castle.CastleDestroyEvent -= OnCastleDestroy;
     }
 
     private void OnDisable()

@@ -11,15 +11,14 @@ namespace Objects
     public class Spawner : MonoBehaviour
     {
         [SerializeField] private SpawnData _stream;
-        private IEnumerator _spawner;
+        private Coroutine _spawner;
         
         public event Action<Spawner> StopSpawnEvent;
         
         public void StartSpawn(SpawnData stream)
         {
             _stream = stream;
-            _spawner = SpawnCoroutine();
-            StartCoroutine(_spawner);
+            _spawner = StartCoroutine(SpawnCoroutine());
         }
 
         private void Spawn()
@@ -35,6 +34,12 @@ namespace Objects
                 Spawn();
             }
             StopSpawnEvent?.Invoke(this);
+        }
+
+        public void StopSpawn()
+        {
+            StopCoroutine(_spawner);
+            _spawner = null;
         }
     }
 }

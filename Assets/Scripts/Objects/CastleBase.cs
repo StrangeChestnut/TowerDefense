@@ -9,5 +9,21 @@ namespace Objects
     {
         [SerializeField] private Health _health;
         public Health Health => _health;
+        public event Action CastleDestroyEvent;
+
+        private void OnEnable()
+        {
+            _health.DieEvent += OnDie;
+        }
+
+        private void OnDie()
+        {
+            CastleDestroyEvent?.Invoke();
+        }
+
+        private void OnDisable()
+        {
+            _health.DieEvent -= OnDie;
+        }
     }
 }

@@ -107,7 +107,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _agent: {fileID: 6637089152578201736}
-  _obstacle: {fileID: 7461828899267015234}
   _rigidbody: {fileID: 6079505485298469189}
 --- !u!114 &6923064059409508089
 MonoBehaviour:
@@ -152,7 +151,7 @@ MonoBehaviour:
   game: {fileID: 11400000, guid: 857921327dcef404f8a7488d832878aa, type: 2}
   _defaultDestinationTime: 5
   _defaultSpeed: 5
-  _damageValue: 5
+  _damageValue: 50
   _attackDistance: 5
 --- !u!65 &1553102233687607333
 BoxCollider:

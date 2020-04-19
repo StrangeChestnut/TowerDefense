@@ -19,7 +19,13 @@ namespace ScriptableObjects
         {
             _gameView = gameView;
             gameView.WonEvent += OnWonGame;
+            gameView.LoseEvent += OnLoseGame;
             gameView.StartGame();
+        }
+
+        private void OnLoseGame()
+        {
+             _gameView.StopGame();
         }
 
         private void OnWonGame()
@@ -29,6 +35,8 @@ namespace ScriptableObjects
 
         public void OnClose(GameView gameView)
         {
+            gameView.WonEvent -= OnWonGame;
+            gameView.LoseEvent -= OnLoseGame;
             _gameView = null;
         }
     }

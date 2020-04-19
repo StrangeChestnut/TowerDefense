@@ -12,6 +12,7 @@ namespace Objects
         public Spawner[] Spawners;
 
         private bool _inSpawnState;
+        private Coroutine _timer;
 
         [SerializeField] private int _waveNumber;
         [SerializeField] private float _timeBeforeWave;
@@ -19,14 +20,6 @@ namespace Objects
         [SerializeField] public List<GameObject> enemies = new List<GameObject>();
 
         public event Action EndLastWaveEvent;
-
-        private void OnStopSpawner(Spawner spawner)
-        {
-            _activeSpawners.Remove(spawner);
-            spawner.StopSpawnEvent -= OnStopSpawner;
-            if (_activeSpawners.Count == 0)
-                _inSpawnState = false;
-        }
 
         private bool WaveIsNotFinished => _inSpawnState || AnyEnemyAlive;
         private bool AnyEnemyAlive => enemies.Count != 0;
@@ -37,10 +30,23 @@ namespace Objects
             _waveNumber = 0;
             StartTimerBeforeWave(_waveNumber);
         }
+        
+        public void Stop()
+        {
+            foreach (var enemy in enemies.ToArray())
+                Destroy(enemy);
+            enemies.Clear();
+
+            foreach (var spawner in _activeSpawners)
+                spawner.StopSpawn();
+            _activeSpawners.Clear();
+            
+            StopCoroutine(_timer);
+        }
 
         private void StartTimerBeforeWave(int waveNumber)
         {
-            StartCoroutine(WaveTimer(waveNumber));
+            _timer = StartCoroutine(WaveTimer(waveNumber));
         }
 
         private IEnumerator WaveTimer(int waveNumber)
@@ -86,6 +92,14 @@ namespace Objects
                 EndLastWaveEvent?.Invoke();
             else
                 StartTimerBeforeWave(++_waveNumber);
+        }
+        
+        private void OnStopSpawner(Spawner spawner)
+        {
+            _activeSpawners.Remove(spawner);
+            spawner.StopSpawnEvent -= OnStopSpawner;
+            if (_activeSpawners.Count == 0)
+                _inSpawnState = false;
         }
     }
 }
