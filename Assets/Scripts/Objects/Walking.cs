@@ -1,37 +1,33 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
-public class Walking : MonoBehaviour
+namespace Objects
 {
-    [SerializeField] private NavMeshAgent _agent;
-    [SerializeField] private Rigidbody _rigidbody;
-    
-    public float Speed
+    public class Walking : MonoBehaviour
     {
-        set
+        [SerializeField] private NavMeshAgent _agent;
+        [SerializeField] private Rigidbody _rigidbody;
+    
+        public float Speed
         {
-            if (_agent != null)
+            set
             {
-                _agent.speed = value;
+                if (_agent != null)
+                {
+                    _agent.speed = value;
+                }
             }
         }
-    }
+        
+        private void Update()
+        {
+            _rigidbody.rotation = Quaternion.Slerp(_rigidbody.rotation, transform.rotation, Time.deltaTime);
+        }
 
-    private void Update()
-    {
-        _rigidbody.rotation = Quaternion.Slerp(_rigidbody.rotation, transform.rotation, Time.deltaTime);
-    }
-
-    public void MovePosition(Vector3 position)
-    {
-        _agent.SetDestination(position);
-    }
-
-    public void StopDistance(float d)
-    {
-        _agent.stoppingDistance = d;
+        public void MovePosition(Vector3 position)
+        {
+            _agent.SetDestination(position);
+        }
     }
 }
 

@@ -1,64 +1,64 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using DefaultNamespace;
 using ScriptableObjects;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-public class Enemy : MonoBehaviour
+namespace Objects
 {
-    [SerializeField] private Character _character;
-    public Character Character => _character;
-    
-    public GameController game;
-    
-    public float DefaultDestinationTime = 5f;
-    public float AttackDestinationTime = 1f;
-    public float DefaultSpeed = 5f;
-    public float AttackDistance = 5f;
-
-    private float _destinationTimer;
-
-    private CastleBase _castle;
-
-    private void OnEnable()
+    enum EnemyState
     {
-        _castle = game.Castle;
-        _destinationTimer = 0f;
-        _character.Walking.Speed = DefaultSpeed;
-        _character.Walking.StopDistance(AttackDistance);
+        Walk,
+        Stay
+    }
+    public class Enemy : MonoBehaviour
+    {
+        [SerializeField] private Character _character;
+        public Character Character => _character;
+    
+        public GameController game;
         
-        game.WaveSpawner.AddEnemy(gameObject);
-    }
+        [SerializeField] private float _defaultDestinationTime = 5f;
+        [SerializeField] private float _defaultSpeed = 5f;
+        [SerializeField] private float _damageValue = 5f;
+        [SerializeField] private float _attackDistance = 5f;
 
-    private void OnDisable()
-    {
-        game.WaveSpawner.RemoveEnemy(gameObject);
-    }
+        private EnemyState _state;
+        private float _destinationTimer;
+        private CastleBase _castle;
 
-    private void Update()
-    {
-        if (_castle != null)
+        private void OnEnable()
         {
-            var vector = _castle.transform.position - transform.position;
-            var distance = vector.magnitude;
-            var destinationTimer = 10f;
-            if (distance < AttackDistance)
+            _state = EnemyState.Walk;
+            _castle = game.Castle;
+            _destinationTimer = 0f;
+            _character.Walking.Speed = _defaultSpeed;
+            game.WaveSpawner.AddEnemy(gameObject);
+        }
+
+        private void OnDisable()
+        {
+            game.WaveSpawner.RemoveEnemy(gameObject);
+        }
+
+        private void Update()
+        {
+            if (_castle != null)
             {
-                _character.Walking.Speed = AttackDistance;
-                destinationTimer = AttackDestinationTime;
+                _destinationTimer -= Time.deltaTime;
+                if (_destinationTimer <= 0f)
+                {
+                    Character.Walking.MovePosition(_castle.transform.position);
+                    _destinationTimer = _defaultDestinationTime;
+                }
             }
-            else if (distance >= AttackDistance)
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject == _castle.gameObject)
             {
-                _character.Walking.Speed = DefaultSpeed;
-                destinationTimer = DefaultDestinationTime;
+                _castle.Health.Damage(_damageValue);
+                Destroy(gameObject);
             }
-				
-            _destinationTimer -= Time.deltaTime;
-            if (_destinationTimer > 0f) return;
-            _character.Walking.MovePosition(_castle.transform.position);
-            _destinationTimer = destinationTimer;
         }
     }
 }

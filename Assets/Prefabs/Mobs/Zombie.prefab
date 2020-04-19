@@ -11,10 +11,12 @@ GameObject:
   - component: {fileID: 1049466117810902360}
   - component: {fileID: 6079505485298469189}
   - component: {fileID: 6637089152578201736}
+  - component: {fileID: 7461828899267015234}
   - component: {fileID: 7789474674195294599}
   - component: {fileID: 6923064059409508089}
   - component: {fileID: 1194315209645538348}
   - component: {fileID: 6140654090608336802}
+  - component: {fileID: 1553102233687607333}
   m_Layer: 8
   m_Name: Zombie
   m_TagString: Untagged
@@ -76,6 +78,22 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!208 &7461828899267015234
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4092410897500972875}
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 1, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 1, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!114 &7789474674195294599
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -89,6 +107,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _agent: {fileID: 6637089152578201736}
+  _obstacle: {fileID: 7461828899267015234}
   _rigidbody: {fileID: 6079505485298469189}
 --- !u!114 &6923064059409508089
 MonoBehaviour:
@@ -131,11 +150,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _character: {fileID: 1194315209645538348}
   game: {fileID: 11400000, guid: 857921327dcef404f8a7488d832878aa, type: 2}
-  DefaultDestinationTime: 5
-  AttackDestinationTime: 1
-  DefaultSpeed: 5
-  AttackSpeed: 0
-  AttackDistance: 5
+  _defaultDestinationTime: 5
+  _defaultSpeed: 5
+  _damageValue: 5
+  _attackDistance: 5
+--- !u!65 &1553102233687607333
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4092410897500972875}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 2, z: 1}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &4896835756537427836
 GameObject:
   m_ObjectHideFlags: 0
@@ -277,7 +308,6 @@ GameObject:
   - component: {fileID: 3633173566198737294}
   - component: {fileID: 7835819813689348787}
   - component: {fileID: 1557346429569515075}
-  - component: {fileID: 3963396010353755325}
   m_Layer: 8
   m_Name: default
   m_TagString: Untagged
@@ -351,19 +381,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &3963396010353755325
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7550109578810311382}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.75, y: 1.875, z: 0.75}
-  m_Center: {x: 0, y: 0.9375, z: 0.125}
 --- !u!1001 &5397390912935638668
 PrefabInstance:
   m_ObjectHideFlags: 0
